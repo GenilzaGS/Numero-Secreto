@@ -1,73 +1,33 @@
-let listaDeNumerosSorteados = [];
-let numeroLimite = 100;
-let numeroSecreto = gerarNumeroAleatorio();
+alert('Boas vindas ao jogo do número secreto');
+let nome = prompt ('Qual é seu nome?')
+let numeroMaximo = parseInt(Math.random()*100+1);
+let numeroSecreto = parseInt(Math.random() * numeroMaximo + 1);
+// *Math.random gera um numero 0 a 1 aleatorio. parseInt ultiliza so uma casa decimal .  
+console.log(numeroSecreto)
+let chute;
 let tentativas = 1;
 
-function exibirTextoNaTela(tag, texto) {
-    let campo = document.querySelector(tag);
-    campo.innerHTML = texto;
-    responsiveVoice.speak(texto, 'Brazilian Portuguese Female', {rate:1.2});
-}
-
-function exibirMensagemInicial() {
-    exibirTextoNaTela('h1', 'Jogo do número secreto');
-    exibirTextoNaTela('p', `Escolha um número entre 1 e ${numeroLimite}.`);
-}
-
-exibirMensagemInicial();
-
-function verificarChute() {
-    let chute = document.querySelector('input').value;
-    
+// enquanto chute não for igual ao n.s.
+while (chute != numeroSecreto) {
+    chute = prompt('Escolha um número entre 1 e '+ numeroMaximo);
+    // se chute for igual ao número secreto
     if (chute == numeroSecreto) {
-        exibirTextoNaTela('h1', 'Acertou!');
-        let palavraTentativa = tentativas > 1 ? 'tentativas' : 'tentativa';
-        let mensagemTentativas = `Você descobriu o número secreto com ${tentativas} ${palavraTentativa}!`;
-        exibirTextoNaTela('p', mensagemTentativas);
-        document.getElementById('reiniciar').removeAttribute('disabled');
+       break; // Parar
     } else {
         if (chute > numeroSecreto) {
-            exibirTextoNaTela('p', 'O número secreto é menor');
+            alert(`O número secreto é menor que ${chute}`)
         } else {
-            exibirTextoNaTela('p', 'O número secreto é maior');
+            alert(`O número secreto é maior que ${chute}`)
         }
-        tentativas++;
-        limparCampo();
+        // tentativas = tentativas + 1
+        tentativas++
     }
 }
+/*if (tentativas > 1) {
+    alert('Isso aí! você descobriu o número secreto '+ numeroSecreto 'com' + tentativas 'tentativas');
+} else 
+alert ('Isso aí! você descobriu o número secreto '+ numeroSecreto 'com' + tentativas 'tentativa.'); */
 
-function gerarNumeroAleatorio() {
-    let numeroEscolhido = parseInt(Math.random() * numeroLimite + 1);
-    let quantidadeDeElementosNaLista = listaDeNumerosSorteados.length;
-
-    if (quantidadeDeElementosNaLista == numeroLimite) {
-        listaDeNumerosSorteados = [];
-    }
-    if (listaDeNumerosSorteados.includes(numeroEscolhido)) {
-        return gerarNumeroAleatorio();
-    } else {
-        listaDeNumerosSorteados.push(numeroEscolhido);
-        console.log(listaDeNumerosSorteados)
-        return numeroEscolhido;
-    }
-}
-
-function limparCampo() {
-    chute = document.querySelector('input');
-    chute.value = '';
-}
-
-function reiniciarJogo() {
-    numeroSecreto = gerarNumeroAleatorio();
-    limparCampo();
-    tentativas = 1;
-    exibirMensagemInicial();
-    document.getElementById('reiniciar').setAttribute('disabled', true)
-}
-
-
-
-
-
-
-
+let palavraTentativa = tentativas > 1 ? 'tentativas' : 'tentativa'
+alert(`Isso ai ${nome}  !' Você descobriu o número secreto ${numeroSecreto} com ${tentativas} ${palavraTentativa}`);
+// tentativa > 1? e para selecionar a primeira opção, caso contratio a segunda opção. operador ternario
